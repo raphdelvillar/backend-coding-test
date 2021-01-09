@@ -81,7 +81,7 @@ module.exports = (db) =&gt; {
                 const driverVehicle = req.body.driver_vehicle;
 
                 if (startLatitude &lt; -90 || startLatitude &gt; 90 || startLongitude &lt; -180 || startLongitude &gt; 180) {
-                    logger.error(&apos;VALIDATION_ERROR&apos;);
+                    logger.error(&apos;[VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
                     return res.send({
                         error_code: &apos;VALIDATION_ERROR&apos;,
                         message: &apos;Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;
@@ -89,7 +89,7 @@ module.exports = (db) =&gt; {
                 }
 
                 if (endLatitude &lt; -90 || endLatitude &gt; 90 || endLongitude &lt; -180 || endLongitude &gt; 180) {
-                    logger.error(&apos;VALIDATION_ERROR&apos;);
+                    logger.error(&apos;[VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
                     return res.send({
                         error_code: &apos;VALIDATION_ERROR&apos;,
                         message: &apos;End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;
@@ -97,7 +97,7 @@ module.exports = (db) =&gt; {
                 }
 
                 if (typeof riderName !== &apos;string&apos; || riderName.length &lt; 1) {
-                    logger.error(&apos;VALIDATION_ERROR&apos;);
+                    logger.error(&apos;[VALIDATION_ERROR] Rider name must be a non empty string&apos;);
                     return res.send({
                         error_code: &apos;VALIDATION_ERROR&apos;,
                         message: &apos;Rider name must be a non empty string&apos;
@@ -113,7 +113,7 @@ module.exports = (db) =&gt; {
                 }
 
                 if (typeof driverVehicle !== &apos;string&apos; || driverVehicle.length &lt; 1) {
-                    logger.error(&apos;VALIDATION_ERROR&apos;);
+                    logger.error(&apos;[VALIDATION_ERROR] Rider name must be a non empty string&apos;);
                     return res.send({
                         error_code: &apos;VALIDATION_ERROR&apos;,
                         message: &apos;Rider name must be a non empty string&apos;
@@ -124,7 +124,7 @@ module.exports = (db) =&gt; {
 
                 const result = db.run(&apos;INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)&apos;, values, function (err) {
                     if (err) {
-                        logger.error(&apos;SERVER_ERROR&apos;);
+                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
                         return res.send({
                             error_code: &apos;SERVER_ERROR&apos;,
                             message: &apos;Unknown error&apos;
@@ -133,7 +133,7 @@ module.exports = (db) =&gt; {
 
                     db.all(&apos;SELECT * FROM Rides WHERE rideID = ?&apos;, this.lastID, function (err, rows) {
                         if (err) {
-                            logger.error(&apos;SERVER_ERROR&apos;);
+                            logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
                             return res.send({
                                 error_code: &apos;SERVER_ERROR&apos;,
                                 message: &apos;Unknown error&apos;
@@ -159,7 +159,7 @@ module.exports = (db) =&gt; {
             callback: (_, res) =&gt; {
                 db.all(&apos;SELECT * FROM Rides&apos;, function (err, rows) {
                     if (err) {
-                        logger.error(&apos;SERVER_ERROR&apos;);
+                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
                         return res.send({
                             error_code: &apos;SERVER_ERROR&apos;,
                             message: &apos;Unknown error&apos;
@@ -167,7 +167,7 @@ module.exports = (db) =&gt; {
                     }
 
                     if (rows.length === 0) {
-                        logger.error(&apos;RIDES_NOT_FOUND_ERROR&apos;);
+                        logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
                         return res.send({
                             error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
                             message: &apos;Could not find any rides&apos;
@@ -201,7 +201,7 @@ module.exports = (db) =&gt; {
             callback: (req, res) =&gt; {
                 db.all(`SELECT * FROM Rides WHERE rideID=&apos;${req.params.id}&apos;`, function (err, rows) {
                     if (err) {
-                        logger.error(&apos;SERVER_ERROR&apos;);
+                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
                         return res.send({
                             error_code: &apos;SERVER_ERROR&apos;,
                             message: &apos;Unknown error&apos;
@@ -209,7 +209,7 @@ module.exports = (db) =&gt; {
                     }
 
                     if (rows.length === 0) {
-                        logger.error(&apos;RIDES_NOT_FOUND_ERROR&apos;);
+                        logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
                         return res.send({
                             error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
                             message: &apos;Could not find any rides&apos;
