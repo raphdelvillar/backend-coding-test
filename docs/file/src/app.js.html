@@ -42,6 +42,8 @@ const app = express();
 const bodyParser = require(&apos;body-parser&apos;);
 const jsonParser = bodyParser.json();
 
+const logger = require(&apos;./logger&apos;)();
+
 module.exports = (routes) =&gt; {
     routes.map((route) =&gt; {
         switch (route.method) {

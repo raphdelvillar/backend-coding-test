@@ -1,24 +1,42 @@
 {
   "coverage": "0%",
-  "expectCount": 6,
+  "expectCount": 12,
   "actualCount": 0,
   "files": {
     "src/app.js": {
-      "expectCount": 4,
+      "expectCount": 5,
       "actualCount": 0,
       "undocumentLines": [
         3,
         4,
         6,
-        7
+        7,
+        9
       ]
     },
-    "src/swagger.js": {
-      "expectCount": 2,
+    "src/logger.js": {
+      "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
         3,
-        4
+        4,
+        5
+      ]
+    },
+    "src/routes.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/swagger.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        6
       ]
     }
   }

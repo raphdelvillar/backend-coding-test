@@ -9,15 +9,15 @@ const routes = require('../src/routes')(db);
 const app = require('../src/app')(routes);
 const buildSchemas = require('../src/schemas');
 
+const Winston = require('../src/logger');
+
 describe('API tests', () => {
     before((done) => {
         db.serialize((err) => { 
             if (err) {
                 return done(err);
             }
-
             buildSchemas(db);
-
             done();
         });
     });
@@ -30,4 +30,31 @@ describe('API tests', () => {
                 .expect(200, done);
         });
     });
+
+    describe('POST /rides', () => {
+        it('should return rows', (done) => {
+            request(app)
+                .post('/rides')
+                .expect('Content-Type', 'application/json; charset=utf-8')
+                .expect(200, done);
+        });
+    });
+
+    describe('GET /rides', () => {
+        it('should return rows', (done) => {
+            request(app)
+                .get('/rides')
+                .expect('Content-Type', 'application/json; charset=utf-8')
+                .expect(200, done);
+        });
+    });
+
+    describe('GET /rides/:id', () => {
+        it('should return rows', (done) => {
+            request(app)
+                .get('/rides/1')
+                .expect('Content-Type', 'application/json; charset=utf-8')
+                .expect(200, done);
+        });
+    })
 });

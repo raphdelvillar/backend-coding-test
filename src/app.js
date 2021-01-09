@@ -6,6 +6,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+const logger = require('./logger')();
+
 module.exports = (routes) => {
     routes.map((route) => {
         switch (route.method) {
