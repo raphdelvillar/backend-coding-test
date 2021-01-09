@@ -1,5 +1,7 @@
 'use strict';
 
+const logger = require('./logger')();
+
 const fs = require('fs');
 const pjson = require('../package.json');
 
@@ -36,7 +38,7 @@ module.exports = (port, routes) => {
 
     fs.writeFileSync('swagger.json', JSON.stringify(data), 'utf8', (err) => {
         if (err) {
-            console.log(err);
+            logger.error(err);
             throw err;
         };
     });

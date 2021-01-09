@@ -288,6 +288,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/logger.js",
+    "file/src/logger.js.html",
+    "src/logger.js",
+    "file"
+  ],
+  [
     "src/routes.js",
     "file/src/routes.js.html",
     "src/routes.js",
