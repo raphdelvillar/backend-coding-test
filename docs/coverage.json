@@ -1,0 +1,25 @@
+{
+  "coverage": "0%",
+  "expectCount": 6,
+  "actualCount": 0,
+  "files": {
+    "src/app.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        6,
+        7
+      ]
+    },
+    "src/swagger.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4
+      ]
+    }
+  }
+}
