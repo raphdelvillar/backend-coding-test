@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha tests",
-    "start": "node index.js"
+    "start": "yarn test && yarn docs && node index.js",
+    "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
   },
   "keywords": [
     "Xendit"
@@ -17,8 +18,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "express": "^4.16.4",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "mocha": "^6.1.4",
