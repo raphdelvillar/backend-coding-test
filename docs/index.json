@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/app.js",
-    "content": "'use strict';\r\n\r\nconst express = require('express');\r\nconst app = express();\r\n\r\nconst bodyParser = require('body-parser');\r\nconst jsonParser = bodyParser.json();\r\n\r\nconst logger = require('./logger')();\r\n\r\nmodule.exports = (routes) => {\r\n    routes.map((route) => {\r\n        switch (route.method) {\r\n            case 'POST':\r\n                app.post(route.link, jsonParser, route.callback);\r\n                return;\r\n            case 'PATCH':\r\n                app.patch(route.link, jsonParser, route.callback);\r\n                return;\r\n            case 'PUT':\r\n                app.put(route.link, jsonParser, route.callback);\r\n                return;\r\n            case 'DELETE':\r\n                app.delete(route.link, route.callback);\r\n                return;\r\n            default:\r\n                app.get(route.link, route.callback);\r\n        }\r\n    })\r\n\r\n    return app;\r\n};\r\n",
+    "content": "/* eslint-disable linebreak-style */\r\n\r\nconst express = require('express');\r\n\r\nconst app = express();\r\n\r\nconst bodyParser = require('body-parser');\r\n\r\nconst jsonParser = bodyParser.json();\r\n\r\nmodule.exports = (routes) => {\r\n  routes.map((route) => {\r\n    switch (route.method) {\r\n      case 'POST':\r\n        app.post(route.link, jsonParser, route.callback);\r\n        break;\r\n      default:\r\n        app.get(route.link, route.callback);\r\n    }\r\n    return route;\r\n  });\r\n\r\n  return app;\r\n};\r\n",
     "static": true,
     "longname": "D:/Projects/raph/backend-coding-test-master/src/app.js",
     "access": "public",
@@ -607,7 +607,7 @@
     "importPath": "backend-coding-test/src/app.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 4,
+    "lineNumber": 5,
     "undocument": true,
     "type": {
       "types": [
@@ -628,7 +628,7 @@
     "importPath": "backend-coding-test/src/app.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 6,
+    "lineNumber": 7,
     "undocument": true,
     "type": {
       "types": [
@@ -649,27 +649,6 @@
     "importPath": "backend-coding-test/src/app.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 7,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 53,
-    "kind": "variable",
-    "name": "logger",
-    "memberof": "src/app.js",
-    "static": true,
-    "longname": "src/app.js~logger",
-    "access": "public",
-    "export": false,
-    "importPath": "backend-coding-test/src/app.js",
-    "importStyle": null,
-    "description": null,
     "lineNumber": 9,
     "undocument": true,
     "type": {
@@ -680,10 +659,10 @@
     "ignore": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 53,
     "kind": "file",
     "name": "src/logger.js",
-    "content": "'use strict';\r\n\r\nconst fs = require('fs');\r\nconst Winston = require('winston');\r\nconst { format } = require('winston');\r\n\r\nmodule.exports = () => {\r\n    const stream = fs.createWriteStream(`logs/${Math.floor(new Date() / 1000)}.log`);\r\n    let logger = Winston.createLogger({\r\n        format: format.combine(\r\n            format.timestamp(),\r\n            format.json()\r\n        ),\r\n        transports: [\r\n            new Winston.transports.File({ stream: stream }),\r\n            new Winston.transports.Console()\r\n        ]\r\n    })\r\n\r\n    Winston.addColors({\r\n        error: 'red',\r\n        warn: 'yellow',\r\n        info: 'cyan',\r\n        debug: 'green'\r\n    });\r\n\r\n    return logger;\r\n}",
+    "content": "/* eslint-disable linebreak-style */\r\nconst fs = require('fs');\r\nconst Winston = require('winston');\r\nconst { format } = require('winston');\r\n\r\nmodule.exports = () => {\r\n  const stream = fs.createWriteStream(`logs/${Math.floor(new Date() / 1000)}.log`);\r\n  const logger = Winston.createLogger({\r\n    format: format.combine(\r\n      format.timestamp(),\r\n      format.json(),\r\n    ),\r\n    transports: [\r\n      new Winston.transports.File({ stream }),\r\n      new Winston.transports.Console(),\r\n    ],\r\n  });\r\n\r\n  Winston.addColors({\r\n    error: 'red',\r\n    warn: 'yellow',\r\n    info: 'cyan',\r\n    debug: 'green',\r\n  });\r\n\r\n  return logger;\r\n};\r\n",
     "static": true,
     "longname": "D:/Projects/raph/backend-coding-test-master/src/logger.js",
     "access": "public",
@@ -691,12 +670,33 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 55,
+    "__docId__": 54,
     "kind": "variable",
     "name": "fs",
     "memberof": "src/logger.js",
     "static": true,
     "longname": "src/logger.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "backend-coding-test/src/logger.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "variable",
+    "name": "Winston",
+    "memberof": "src/logger.js",
+    "static": true,
+    "longname": "src/logger.js~Winston",
     "access": "public",
     "export": false,
     "importPath": "backend-coding-test/src/logger.js",
@@ -714,10 +714,10 @@
   {
     "__docId__": 56,
     "kind": "variable",
-    "name": "Winston",
+    "name": "format",
     "memberof": "src/logger.js",
     "static": true,
-    "longname": "src/logger.js~Winston",
+    "longname": "src/logger.js~format",
     "access": "public",
     "export": false,
     "importPath": "backend-coding-test/src/logger.js",
@@ -734,30 +734,9 @@
   },
   {
     "__docId__": 57,
-    "kind": "variable",
-    "name": "format",
-    "memberof": "src/logger.js",
-    "static": true,
-    "longname": "src/logger.js~format",
-    "access": "public",
-    "export": false,
-    "importPath": "backend-coding-test/src/logger.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 58,
     "kind": "file",
     "name": "src/routes.js",
-    "content": "'use strict';\r\n\r\nconst logger = require('./logger')();\r\n\r\nmodule.exports = (db) => {\r\n    return [\r\n        {\r\n            link: '/health',\r\n            method: 'GET',\r\n            tags: ['Health'],\r\n            description: 'Checks system status',\r\n            responses: {\r\n                200: {\r\n                    description: 'OK'\r\n                },\r\n            },\r\n            callback: (_, res) => {\r\n                logger.info('GET /health OK');\r\n                res.send('Healthy');\r\n            }\r\n        },\r\n        {\r\n            link: '/rides',\r\n            method: 'POST',\r\n            tags: ['Rides'],\r\n            description: 'Create new ride in the system',\r\n            parameters: [\r\n                {\r\n                    name: 'body',\r\n                    in: 'body'\r\n                },\r\n            ],\r\n            responses: {\r\n                200: {\r\n                    description: 'New ride is created'\r\n                },\r\n            },\r\n            callback: (req, res) => {\r\n                const startLatitude = Number(req.body.start_lat);\r\n                const startLongitude = Number(req.body.start_long);\r\n                const endLatitude = Number(req.body.end_lat);\r\n                const endLongitude = Number(req.body.end_long);\r\n                const riderName = req.body.rider_name;\r\n                const driverName = req.body.driver_name;\r\n                const driverVehicle = req.body.driver_vehicle;\r\n\r\n                if (startLatitude < -90 || startLatitude > 90 || startLongitude < -180 || startLongitude > 180) {\r\n                    logger.error('[VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');\r\n                    return res.send({\r\n                        error_code: 'VALIDATION_ERROR',\r\n                        message: 'Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively'\r\n                    });\r\n                }\r\n\r\n                if (endLatitude < -90 || endLatitude > 90 || endLongitude < -180 || endLongitude > 180) {\r\n                    logger.error('[VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');\r\n                    return res.send({\r\n                        error_code: 'VALIDATION_ERROR',\r\n                        message: 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively'\r\n                    });\r\n                }\r\n\r\n                if (typeof riderName !== 'string' || riderName.length < 1) {\r\n                    logger.error('[VALIDATION_ERROR] Rider name must be a non empty string');\r\n                    return res.send({\r\n                        error_code: 'VALIDATION_ERROR',\r\n                        message: 'Rider name must be a non empty string'\r\n                    });\r\n                }\r\n\r\n                if (typeof driverName !== 'string' || driverName.length < 1) {\r\n                    logger.error('VALIDATION_ERROR');\r\n                    return res.send({\r\n                        error_code: 'VALIDATION_ERROR',\r\n                        message: 'Rider name must be a non empty string'\r\n                    });\r\n                }\r\n\r\n                if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {\r\n                    logger.error('[VALIDATION_ERROR] Rider name must be a non empty string');\r\n                    return res.send({\r\n                        error_code: 'VALIDATION_ERROR',\r\n                        message: 'Rider name must be a non empty string'\r\n                    });\r\n                }\r\n\r\n                var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];\r\n\r\n                const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {\r\n                    if (err) {\r\n                        logger.error('[SERVER_ERROR] Unknown error');\r\n                        return res.send({\r\n                            error_code: 'SERVER_ERROR',\r\n                            message: 'Unknown error'\r\n                        });\r\n                    }\r\n\r\n                    db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {\r\n                        if (err) {\r\n                            logger.error('[SERVER_ERROR] Unknown error');\r\n                            return res.send({\r\n                                error_code: 'SERVER_ERROR',\r\n                                message: 'Unknown error'\r\n                            });\r\n                        }\r\n\r\n                        logger.info('POST /rides New ride is created');\r\n                        res.send(rows);\r\n                    });\r\n                });\r\n            }\r\n        },\r\n        {\r\n            link: '/rides',\r\n            method: 'GET',\r\n            tags: ['Rides'],\r\n            description: 'Get all rides from the system',\r\n            responses: {\r\n                200: {\r\n                    description: 'OK'\r\n                },\r\n            },\r\n            callback: (_, res) => {\r\n                db.all('SELECT * FROM Rides', function (err, rows) {\r\n                    if (err) {\r\n                        logger.error('[SERVER_ERROR] Unknown error');\r\n                        return res.send({\r\n                            error_code: 'SERVER_ERROR',\r\n                            message: 'Unknown error'\r\n                        });\r\n                    }\r\n\r\n                    if (rows.length === 0) {\r\n                        logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');\r\n                        return res.send({\r\n                            error_code: 'RIDES_NOT_FOUND_ERROR',\r\n                            message: 'Could not find any rides'\r\n                        });\r\n                    }\r\n\r\n                    logger.info('GET /rides OK')\r\n                    res.send(rows);\r\n                });\r\n            }\r\n        },\r\n        {\r\n            link: '/rides/:id',\r\n            method: 'GET',\r\n            tags: ['Rides'],\r\n            description: 'Get specific ride from the system',\r\n            parameters: [\r\n                {\r\n                    name: 'id',\r\n                    schema: {\r\n                        type: 'integer'\r\n                    },\r\n                    in: 'path'\r\n                },\r\n            ],\r\n            responses: {\r\n                200: {\r\n                    description: 'OK'\r\n                },\r\n            },\r\n            callback: (req, res) => {\r\n                db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {\r\n                    if (err) {\r\n                        logger.error('[SERVER_ERROR] Unknown error');\r\n                        return res.send({\r\n                            error_code: 'SERVER_ERROR',\r\n                            message: 'Unknown error'\r\n                        });\r\n                    }\r\n\r\n                    if (rows.length === 0) {\r\n                        logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');\r\n                        return res.send({\r\n                            error_code: 'RIDES_NOT_FOUND_ERROR',\r\n                            message: 'Could not find any rides'\r\n                        });\r\n                    }\r\n\r\n                    logger.info(`GET /rides/${req.parms.id} OK`)\r\n                    res.send(rows);\r\n                });\r\n            }\r\n        },\r\n    ];\r\n}",
+    "content": "/* eslint-disable linebreak-style */\r\nconst logger = require('./logger')();\r\n\r\nmodule.exports = (db) => [\r\n  {\r\n    link: '/health',\r\n    method: 'GET',\r\n    tags: ['Health'],\r\n    description: 'Checks system status',\r\n    responses: {\r\n      200: {\r\n        description: 'OK',\r\n      },\r\n    },\r\n    callback: (_, res) => {\r\n      logger.info('GET /health OK');\r\n      res.send('Healthy');\r\n    },\r\n  },\r\n  {\r\n    link: '/rides',\r\n    method: 'POST',\r\n    tags: ['Rides'],\r\n    description: 'Create new ride in the system',\r\n    parameters: [\r\n      {\r\n        name: 'body',\r\n        in: 'body',\r\n      },\r\n    ],\r\n    responses: {\r\n      200: {\r\n        description: 'New ride is created',\r\n      },\r\n    },\r\n    callback: (req, res) => {\r\n      const startLatitude = Number(req.body.start_lat);\r\n      const startLongitude = Number(req.body.start_long);\r\n      const endLatitude = Number(req.body.end_lat);\r\n      const endLongitude = Number(req.body.end_long);\r\n      const riderName = req.body.rider_name;\r\n      const driverName = req.body.driver_name;\r\n      const driverVehicle = req.body.driver_vehicle;\r\n\r\n      if (startLatitude < -90 || startLatitude > 90) {\r\n        if (startLongitude < -180 || startLongitude > 180) {\r\n          logger.error('[VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');\r\n          return res.status(500).send({\r\n            error_code: 'VALIDATION_ERROR',\r\n            message: 'Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively',\r\n          });\r\n        }\r\n      }\r\n\r\n      if (endLatitude < -90 || endLatitude > 90 || endLongitude < -180 || endLongitude > 180) {\r\n        logger.error('[VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');\r\n        return res.status(500).send({\r\n          error_code: 'VALIDATION_ERROR',\r\n          message: 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively',\r\n        });\r\n      }\r\n\r\n      if (typeof riderName !== 'string' || riderName.length < 1) {\r\n        logger.error('[VALIDATION_ERROR] Rider name must be a non empty string');\r\n        return res.status(500).send({\r\n          error_code: 'VALIDATION_ERROR',\r\n          message: 'Rider name must be a non empty string',\r\n        });\r\n      }\r\n\r\n      if (typeof driverName !== 'string' || driverName.length < 1) {\r\n        logger.error('VALIDATION_ERROR');\r\n        return res.status(500).send({\r\n          error_code: 'VALIDATION_ERROR',\r\n          message: 'Driver name must be a non empty string',\r\n        });\r\n      }\r\n\r\n      if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {\r\n        logger.error('[VALIDATION_ERROR] Driver vehicle must be a non empty string');\r\n        return res.status(500).send({\r\n          error_code: 'VALIDATION_ERROR',\r\n          message: 'Driver vehicle must be a non empty string',\r\n        });\r\n      }\r\n\r\n      const values = [...Object.values(req.body)];\r\n\r\n      const fields = 'Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle)';\r\n      db.run(`INSERT INTO ${fields} VALUES (?, ?, ?, ?, ?, ?, ?)`, values, (err) => {\r\n        if (err) {\r\n          logger.error(`[SERVER_ERROR] ${err}`);\r\n          return res.status(500).send({\r\n            error_code: 'SERVER_ERROR',\r\n            message: 'Unknown error',\r\n          });\r\n        }\r\n\r\n        db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, (err2, rows) => {\r\n          if (err2) {\r\n            logger.error('[SERVER_ERROR] Unknown error');\r\n            return res.status(500).send({\r\n              error_code: 'SERVER_ERROR',\r\n              message: 'Unknown error',\r\n            });\r\n          }\r\n          logger.info('POST /rides New ride is created');\r\n          return res.send(rows);\r\n        });\r\n      });\r\n    },\r\n  },\r\n  {\r\n    link: '/rides',\r\n    method: 'GET',\r\n    tags: ['Rides'],\r\n    description: 'Get all rides from the system',\r\n    responses: {\r\n      200: {\r\n        description: 'OK',\r\n      },\r\n    },\r\n    callback: (_, res) => {\r\n      db.all('SELECT * FROM Rides', (err, rows) => {\r\n        if (err) {\r\n          logger.error('[SERVER_ERROR] Unknown error');\r\n          return res.status(500).send({\r\n            error_code: 'SERVER_ERROR',\r\n            message: 'Unknown error',\r\n          });\r\n        }\r\n\r\n        if (rows.length === 0) {\r\n          logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');\r\n          return res.status(500).send({\r\n            error_code: 'RIDES_NOT_FOUND_ERROR',\r\n            message: 'Could not find any rides',\r\n          });\r\n        }\r\n\r\n        logger.info('GET /rides OK');\r\n        return res.send(rows);\r\n      });\r\n    },\r\n  },\r\n  {\r\n    link: '/rides/:id',\r\n    method: 'GET',\r\n    tags: ['Rides'],\r\n    description: 'Get specific ride from the system',\r\n    parameters: [\r\n      {\r\n        name: 'id',\r\n        schema: {\r\n          type: 'integer',\r\n        },\r\n        in: 'path',\r\n      },\r\n    ],\r\n    responses: {\r\n      200: {\r\n        description: 'OK',\r\n      },\r\n    },\r\n    callback: (req, res) => {\r\n      db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, (err, rows) => {\r\n        if (err) {\r\n          logger.error(`[SERVER_ERROR] ${err}`);\r\n          return res.status(500).send({\r\n            error_code: 'SERVER_ERROR',\r\n            message: 'Unknown error',\r\n          });\r\n        }\r\n\r\n        if (rows.length === 0) {\r\n          logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');\r\n          return res.status(500).send({\r\n            error_code: 'RIDES_NOT_FOUND_ERROR',\r\n            message: 'Could not find any rides',\r\n          });\r\n        }\r\n\r\n        logger.info(`GET /rides/${req.params.id} OK`);\r\n        return res.send(rows);\r\n      });\r\n    },\r\n  },\r\n];\r\n",
     "static": true,
     "longname": "D:/Projects/raph/backend-coding-test-master/src/routes.js",
     "access": "public",
@@ -765,7 +744,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 59,
+    "__docId__": 58,
     "kind": "variable",
     "name": "logger",
     "memberof": "src/routes.js",
@@ -776,7 +755,7 @@
     "importPath": "backend-coding-test/src/routes.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 2,
     "undocument": true,
     "type": {
       "types": [
@@ -786,10 +765,10 @@
     "ignore": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 59,
     "kind": "file",
     "name": "src/schemas.js",
-    "content": "'use strict';\r\n\r\nmodule.exports = (db) => {\r\n    const createRideTableSchema = `\r\n        CREATE TABLE Rides\r\n        (\r\n        rideID INTEGER PRIMARY KEY AUTOINCREMENT,\r\n        startLat DECIMAL NOT NULL,\r\n        startLong DECIMAL NOT NULL,\r\n        endLat DECIMAL NOT NULL,\r\n        endLong DECIMAL NOT NULL,\r\n        riderName TEXT NOT NULL,\r\n        driverName TEXT NOT NULL,\r\n        driverVehicle TEXT NOT NULL,\r\n        created DATETIME default CURRENT_TIMESTAMP\r\n        )\r\n    `;\r\n\r\n    db.run(createRideTableSchema);\r\n\r\n    return db;\r\n};\r\n",
+    "content": "/* eslint-disable linebreak-style */\r\nmodule.exports = (db) => {\r\n  const createRideTableSchema = `\r\n        CREATE TABLE Rides\r\n        (\r\n        rideID INTEGER PRIMARY KEY AUTOINCREMENT,\r\n        startLat DECIMAL NOT NULL,\r\n        startLong DECIMAL NOT NULL,\r\n        endLat DECIMAL NOT NULL,\r\n        endLong DECIMAL NOT NULL,\r\n        riderName TEXT NOT NULL,\r\n        driverName TEXT NOT NULL,\r\n        driverVehicle TEXT NOT NULL,\r\n        created DATETIME default CURRENT_TIMESTAMP\r\n        )\r\n    `;\r\n\r\n  db.run(createRideTableSchema);\r\n\r\n  return db;\r\n};\r\n",
     "static": true,
     "longname": "D:/Projects/raph/backend-coding-test-master/src/schemas.js",
     "access": "public",
@@ -797,15 +776,36 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 61,
+    "__docId__": 60,
     "kind": "file",
     "name": "src/swagger.js",
-    "content": "'use strict';\r\n\r\nconst logger = require('./logger')();\r\n\r\nconst fs = require('fs');\r\nconst pjson = require('../package.json');\r\n\r\nmodule.exports = (port, routes) => {\r\n    let data = {\r\n        swagger: '2.0',\r\n        info: {\r\n            version: pjson.version,\r\n            title: pjson.name,\r\n            description: pjson.description,\r\n        },\r\n        host: `localhost:${port}`,\r\n        basePath: '',\r\n        tags: [],\r\n        schemes: ['http'],\r\n        consumes: ['application/json'],\r\n        produces: ['application/json'],\r\n        paths: {}\r\n    }\r\n\r\n    routes.map((route) => {\r\n        if (data.paths[route.link] == null) {\r\n            data.paths[route.link] = {};\r\n        }\r\n\r\n        data.paths[route.link][route.method.toLowerCase()] = {\r\n            tags: route.tags,\r\n            summary: route.description,\r\n            responses: route.responses,\r\n            requestBody: route.requestBody,\r\n            parameters: route.parameters\r\n        }\r\n    })\r\n\r\n    fs.writeFileSync('swagger.json', JSON.stringify(data), 'utf8', (err) => {\r\n        if (err) {\r\n            logger.error(err);\r\n            throw err;\r\n        };\r\n    });\r\n}",
+    "content": "/* eslint-disable linebreak-style */\r\nconst fs = require('fs');\r\nconst logger = require('./logger')();\r\n\r\nconst pjson = require('../package.json');\r\n\r\nmodule.exports = (port, routes) => {\r\n  const data = {\r\n    swagger: '2.0',\r\n    info: {\r\n      version: pjson.version,\r\n      title: pjson.name,\r\n      description: pjson.description,\r\n    },\r\n    host: `localhost:${port}`,\r\n    basePath: '',\r\n    tags: [],\r\n    schemes: ['http'],\r\n    consumes: ['application/json'],\r\n    produces: ['application/json'],\r\n    paths: {},\r\n  };\r\n\r\n  routes.map((route) => {\r\n    if (data.paths[route.link] == null) {\r\n      data.paths[route.link] = {};\r\n    }\r\n\r\n    data.paths[route.link][route.method.toLowerCase()] = {\r\n      tags: route.tags,\r\n      summary: route.description,\r\n      responses: route.responses,\r\n      requestBody: route.requestBody,\r\n      parameters: route.parameters,\r\n    };\r\n\r\n    return route;\r\n  });\r\n\r\n  fs.writeFileSync('swagger.json', JSON.stringify(data), 'utf8', (err) => {\r\n    if (err) {\r\n      logger.error(err);\r\n      throw err;\r\n    }\r\n  });\r\n};\r\n",
     "static": true,
     "longname": "D:/Projects/raph/backend-coding-test-master/src/swagger.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
+  },
+  {
+    "__docId__": 61,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "src/swagger.js",
+    "static": true,
+    "longname": "src/swagger.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "backend-coding-test/src/swagger.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
   },
   {
     "__docId__": 62,
@@ -831,27 +831,6 @@
   {
     "__docId__": 63,
     "kind": "variable",
-    "name": "fs",
-    "memberof": "src/swagger.js",
-    "static": true,
-    "longname": "src/swagger.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "backend-coding-test/src/swagger.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 64,
-    "kind": "variable",
     "name": "pjson",
     "memberof": "src/swagger.js",
     "static": true,
@@ -861,7 +840,7 @@
     "importPath": "backend-coding-test/src/swagger.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 6,
+    "lineNumber": 5,
     "undocument": true,
     "type": {
       "types": [
@@ -880,7 +859,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n  \"name\": \"backend-coding-test\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"A coding assessment for Xendit backend interviews\",\r\n  \"main\": \"index.js\",\r\n  \"directories\": {\r\n    \"test\": \"tests\"\r\n  },\r\n  \"scripts\": {\r\n    \"test\": \"nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000\",\r\n    \"start\": \"yarn test && yarn docs && node index.js\",\r\n    \"docs\": \"./node_modules/.bin/esdoc -c .esdoc.json\"\r\n  },\r\n  \"keywords\": [\r\n    \"Xendit\"\r\n  ],\r\n  \"author\": \"Bo\",\r\n  \"license\": \"ISC\",\r\n  \"dependencies\": {\r\n    \"body-parser\": \"^1.19.0\",\r\n    \"esdoc\": \"^1.1.0\",\r\n    \"esdoc-standard-plugin\": \"^1.0.0\",\r\n    \"express\": \"^4.16.4\",\r\n    \"sqlite3\": \"^4.0.6\",\r\n    \"swagger-ui-express\": \"^4.1.6\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"eslint\": \"^7.17.0\",\r\n    \"mocha\": \"^6.1.4\",\r\n    \"nyc\": \"^15.1.0\",\r\n    \"pre-push\": \"^0.1.1\",\r\n    \"supertest\": \"^4.0.2\",\r\n    \"winston\": \"^3.3.3\"\r\n  }\r\n}\r\n",
+    "content": "{\r\n  \"name\": \"backend-coding-test\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"A coding assessment for Xendit backend interviews\",\r\n  \"main\": \"index.js\",\r\n  \"directories\": {\r\n    \"test\": \"tests\"\r\n  },\r\n  \"scripts\": {\r\n    \"linter\": \"yarn run eslint\",\r\n    \"test\": \"nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000\",\r\n    \"start\": \"yarn test && yarn docs && node index.js\",\r\n    \"docs\": \"./node_modules/.bin/esdoc -c .esdoc.json\"\r\n  },\r\n  \"pre-push\": [\r\n    \"linter\",\r\n    \"test\"\r\n  ],\r\n  \"keywords\": [\r\n    \"Xendit\"\r\n  ],\r\n  \"author\": \"Bo\",\r\n  \"license\": \"ISC\",\r\n  \"dependencies\": {\r\n    \"body-parser\": \"^1.19.0\",\r\n    \"esdoc\": \"^1.1.0\",\r\n    \"esdoc-standard-plugin\": \"^1.0.0\",\r\n    \"eslint-config-airbnb\": \"^18.2.1\",\r\n    \"express\": \"^4.16.4\",\r\n    \"sqlite3\": \"^4.0.6\",\r\n    \"swagger-ui-express\": \"^4.1.6\",\r\n    \"winston\": \"^3.3.3\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"@typescript-eslint/eslint-plugin\": \"^4.12.0\",\r\n    \"@typescript-eslint/parser\": \"^4.12.0\",\r\n    \"chai\": \"^4.2.0\",\r\n    \"chai-http\": \"^4.3.0\",\r\n    \"eslint\": \"^7.17.0\",\r\n    \"eslint-plugin-import\": \"^2.22.1\",\r\n    \"mocha\": \"^6.1.4\",\r\n    \"nyc\": \"^15.1.0\",\r\n    \"pre-push\": \"^0.1.1\",\r\n    \"supertest\": \"^4.0.2\",\r\n    \"typescript\": \"^4.1.3\"\r\n  }\r\n}\r\n",
     "longname": "D:\\Projects\\raph\\backend-coding-test-master\\package.json",
     "name": "package.json",
     "static": true,
@@ -898,7 +877,7 @@
     "kind": "manual",
     "longname": "D:\\Projects\\raph\\backend-coding-test-master\\manual\\overview.md",
     "name": "./manual/overview.md",
-    "content": "# Overview\r\n\r\n## API\r\n\r\n| Link   |      Method      |  Description |\r\n|:----------|:-------------|:------|\r\n| / |  N/A | User Manual |\r\n| /api-docs |    N/A   |   API Documentation |\r\n| /health | GET |    Checks system status |\r\n| /rides | POST |    Creates a new ride in the system |\r\n| /rides | GET |    Get all rides from the system |\r\n| /rides/:id | GET |    Get specific ride from the system |\r\n\r\n## Tasks\r\n\r\n1. [Documentation](#documentation)\r\n2. [Implement Tooling](#implement-tooling)\r\n3. [Implement Pagination](#implement-pagination)\r\n4. [Refactoring](#refactoring)\r\n5. [Security](#security)\r\n6. [Load Testing](#load-testing)\r\n",
+    "content": "# Overview\r\n\r\n## API\r\n\r\n| Link   |      Method      |  Description |\r\n|:----------|:-------------|:------|\r\n| / |  N/A | User Manual |\r\n| /api-docs |    N/A   |   API Documentation |\r\n| /health | GET |    Checks system status |\r\n| /rides | POST |    Creates a new ride in the system |\r\n| /rides | GET |    Get all rides from the system |\r\n| /rides/:id | GET |    Get specific ride from the system |\r\n\r\n## Tasks\r\n\r\n1. Documentation\r\n2. Implement Tooling\r\n3. Implement Pagination\r\n4. Refactoring\r\n5. Security\r\n6. Load Testing\r\n",
     "static": true,
     "access": "public"
   },
@@ -907,6 +886,14 @@
     "longname": "D:\\Projects\\raph\\backend-coding-test-master\\manual\\documentation.md",
     "name": "./manual/documentation.md",
     "content": "# Documentation\r\n\r\nUsed esdocs for generating user manual and used swagger ui for generating api documentation.\r\n\r\n## Esdocs\r\n\r\n1. Add esdocs using `yarn add esdoc esdoc-standard-plugin`\r\n2. Create .esdoc.json file - ensure that it is utf-8 encoded or else the next step won't work.\r\n3. Run `yarn docs` - this will call ./node_modules/.bin/esdoc and will generate the docs folder which contains the html files for documentation.\r\n4. Expose through the api using express static\r\n\r\n## Swagger UI\r\n\r\n1. Add swagger-ui-express using `yarn add swagger-ui-express`\r\n2. Add a way to automatically generate the file swagger.json (see src/swagger.js)\r\n2. Modify the routes to provide general information that swagger requires in order to list the apis properly.",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "manual",
+    "longname": "D:\\Projects\\raph\\backend-coding-test-master\\manual\\tooling.md",
+    "name": "./manual/tooling.md",
+    "content": "# Tooling\r\n\r\n## eslint\r\n\r\nRun using `yarn run eslint` or `yarn linter`\r\n\r\n1. How would you like to use ESLint? `style`\r\n2. What type of modules does your project use? `commonjs`\r\n3. Which framework does your project use? `none`\r\n4. Does your project use Typescript? `Yes`\r\n5. Where do your code run? `browser, node`\r\n6. What format do you want your config file to be in? `YAML`\r\n7. How would you like to define a style for your project? `guide`\r\n8. Which style guide do you want to follow? `airbnb`\r\n\r\n## nyc\r\n\r\nRun using `nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000` or `yarn test`\r\n\r\nAs of `tooling-nyc`\r\n\r\nFile        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s\r\n:-----------|:--------|:---------|:--------|:--------|:--------------------------------------\r\nAll files   |    87.8 |     82.5 |     100 |   87.65 | \r\n app.js     |     100 |      100 |     100 |     100 | \r\n logger.js  |     100 |      100 |     100 |     100 | \r\n routes.js  |   82.76 |    81.58 |     100 |   82.46 | 92-93,101-102,126-127,134-135,168-169\r\n schemas.js |     100 |      100 |     100 |     100 |                                       \r\n\r\n## pre-push\r\n\r\n## winston\r\n\r\nLogs are saved in ./logs folder using unix timestamp as filename",
     "static": true,
     "access": "public"
   }

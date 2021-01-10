@@ -9,7 +9,8 @@
                "index": "./Readme.md",
                "files": [
                   "./manual/overview.md",
-                  "./manual/documentation.md"
+                  "./manual/documentation.md",
+                  "./manual/tooling.md"
                ]
             }
          }

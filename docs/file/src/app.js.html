@@ -34,37 +34,29 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/app.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable linebreak-style */
 
 const express = require(&apos;express&apos;);
+
 const app = express();
 
 const bodyParser = require(&apos;body-parser&apos;);
+
 const jsonParser = bodyParser.json();
 
-const logger = require(&apos;./logger&apos;)();
-
 module.exports = (routes) =&gt; {
-    routes.map((route) =&gt; {
-        switch (route.method) {
-            case &apos;POST&apos;:
-                app.post(route.link, jsonParser, route.callback);
-                return;
-            case &apos;PATCH&apos;:
-                app.patch(route.link, jsonParser, route.callback);
-                return;
-            case &apos;PUT&apos;:
-                app.put(route.link, jsonParser, route.callback);
-                return;
-            case &apos;DELETE&apos;:
-                app.delete(route.link, route.callback);
-                return;
-            default:
-                app.get(route.link, route.callback);
-        }
-    })
+  routes.map((route) =&gt; {
+    switch (route.method) {
+      case &apos;POST&apos;:
+        app.post(route.link, jsonParser, route.callback);
+        break;
+      default:
+        app.get(route.link, route.callback);
+    }
+    return route;
+  });
 
-    return app;
+  return app;
 };
 </code></pre>
 

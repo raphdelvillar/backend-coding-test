@@ -34,34 +34,34 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/logger.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable linebreak-style */
 const fs = require(&apos;fs&apos;);
 const Winston = require(&apos;winston&apos;);
 const { format } = require(&apos;winston&apos;);
 
 module.exports = () =&gt; {
-    const stream = fs.createWriteStream(`logs/${Math.floor(new Date() / 1000)}.log`);
-    let logger = Winston.createLogger({
-        format: format.combine(
-            format.timestamp(),
-            format.json()
-        ),
-        transports: [
-            new Winston.transports.File({ stream: stream }),
-            new Winston.transports.Console()
-        ]
-    })
+  const stream = fs.createWriteStream(`logs/${Math.floor(new Date() / 1000)}.log`);
+  const logger = Winston.createLogger({
+    format: format.combine(
+      format.timestamp(),
+      format.json(),
+    ),
+    transports: [
+      new Winston.transports.File({ stream }),
+      new Winston.transports.Console(),
+    ],
+  });
 
-    Winston.addColors({
-        error: &apos;red&apos;,
-        warn: &apos;yellow&apos;,
-        info: &apos;cyan&apos;,
-        debug: &apos;green&apos;
-    });
+  Winston.addColors({
+    error: &apos;red&apos;,
+    warn: &apos;yellow&apos;,
+    info: &apos;cyan&apos;,
+    debug: &apos;green&apos;,
+  });
 
-    return logger;
-}</code></pre>
+  return logger;
+};
+</code></pre>
 
 </div>
 

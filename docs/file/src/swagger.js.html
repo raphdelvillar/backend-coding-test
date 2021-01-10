@@ -34,51 +34,53 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/swagger.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable linebreak-style */
+const fs = require(&apos;fs&apos;);
 const logger = require(&apos;./logger&apos;)();
 
-const fs = require(&apos;fs&apos;);
 const pjson = require(&apos;../package.json&apos;);
 
 module.exports = (port, routes) =&gt; {
-    let data = {
-        swagger: &apos;2.0&apos;,
-        info: {
-            version: pjson.version,
-            title: pjson.name,
-            description: pjson.description,
-        },
-        host: `localhost:${port}`,
-        basePath: &apos;&apos;,
-        tags: [],
-        schemes: [&apos;http&apos;],
-        consumes: [&apos;application/json&apos;],
-        produces: [&apos;application/json&apos;],
-        paths: {}
+  const data = {
+    swagger: &apos;2.0&apos;,
+    info: {
+      version: pjson.version,
+      title: pjson.name,
+      description: pjson.description,
+    },
+    host: `localhost:${port}`,
+    basePath: &apos;&apos;,
+    tags: [],
+    schemes: [&apos;http&apos;],
+    consumes: [&apos;application/json&apos;],
+    produces: [&apos;application/json&apos;],
+    paths: {},
+  };
+
+  routes.map((route) =&gt; {
+    if (data.paths[route.link] == null) {
+      data.paths[route.link] = {};
     }
 
-    routes.map((route) =&gt; {
-        if (data.paths[route.link] == null) {
-            data.paths[route.link] = {};
-        }
+    data.paths[route.link][route.method.toLowerCase()] = {
+      tags: route.tags,
+      summary: route.description,
+      responses: route.responses,
+      requestBody: route.requestBody,
+      parameters: route.parameters,
+    };
 
-        data.paths[route.link][route.method.toLowerCase()] = {
-            tags: route.tags,
-            summary: route.description,
-            responses: route.responses,
-            requestBody: route.requestBody,
-            parameters: route.parameters
-        }
-    })
+    return route;
+  });
 
-    fs.writeFileSync(&apos;swagger.json&apos;, JSON.stringify(data), &apos;utf8&apos;, (err) =&gt; {
-        if (err) {
-            logger.error(err);
-            throw err;
-        };
-    });
-}</code></pre>
+  fs.writeFileSync(&apos;swagger.json&apos;, JSON.stringify(data), &apos;utf8&apos;, (err) =&gt; {
+    if (err) {
+      logger.error(err);
+      throw err;
+    }
+  });
+};
+</code></pre>
 
 </div>
 

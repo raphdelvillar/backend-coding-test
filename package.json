@@ -7,9 +7,20 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000",
+    "linter": "yarn run eslint",
+    "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000 --check-coverage=true",
     "start": "yarn test && yarn docs && node index.js",
     "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
+  },
+  "pre-push": [
+    "linter",
+    "test"
+  ],
+  "nyc": {
+    "branches": "&gt;80",
+    "lines": "&gt;80",
+    "functions": "&gt;80",
+    "statements": "&gt;80"
   },
   "keywords": [
     "Xendit"
@@ -29,6 +40,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.22.1",
     "mocha": "^6.1.4",
