@@ -7,11 +7,12 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const jsonParser = bodyParser.json();
+const enums = require('./enums')();
 
 module.exports = (routes) => {
   routes.map((route) => {
     switch (route.method) {
-      case 'POST':
+      case enums.methods.POST:
         app.post(route.link, jsonParser, route.callback);
         break;
       default:
