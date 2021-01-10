@@ -11,7 +11,9 @@
                   "./manual/overview.md",
                   "./manual/documentation.md",
                   "./manual/tooling.md",
-                  "./manual/pagination.md"
+                  "./manual/pagination.md",
+                  "./manual/refactoring.md",
+                  "./manual/security.md"
                ]
             }
          }
