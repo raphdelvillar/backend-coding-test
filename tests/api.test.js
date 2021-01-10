@@ -134,6 +134,7 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(200);
+          res.body.should.have.length(1);
           done();
         });
     });
@@ -146,18 +147,51 @@ describe('API tests', () => {
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
+          res.body.should.have.length(1);
+          done();
+        });
+    });
+
+    it('should return rows', (done) => {
+      chai.request(app)
+        .post('/rides')
+        .send({
+          start_lat: 0,
+          start_long: 0,
+          end_lat: 0,
+          end_long: 0,
+          rider_name: 'Rider',
+          driver_name: 'Driver',
+          driver_vehicle: 'Car',
+        })
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.should.have.length(1);
+          done();
+        });
+    });
+
+    it('should return rows with pagination', (done) => {
+      chai.request(app)
+        .get('/rides?skip=1&limit=1')
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.should.have.length(1);
+          res.body[0].should.have.property('rideID').eql(2);
           done();
         });
     });
   });
 
   describe('GET /rides/:id', () => {
-    it('should return rows', (done) => {
+    it('should return row', (done) => {
       request(app)
         .get('/rides/1')
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
+          res.body.should.have.length(1);
           done();
         });
     });

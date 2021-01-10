@@ -63,18 +63,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="documentation">Documentation</h1><p>Used esdocs for generating user manual and used swagger ui for generating api documentation.</p>
-<h2 id="esdocs">Esdocs</h2><ol>
-<li>Add esdocs using <code>yarn add esdoc esdoc-standard-plugin</code></li>
-<li>Create .esdoc.json file - ensure that it is utf-8 encoded or else the next step won&apos;t work.</li>
-<li>Run <code>yarn docs</code> - this will call ./node_modules/.bin/esdoc and will generate the docs folder which contains the html files for documentation.</li>
-<li>Expose through the api using express static</li>
-</ol>
-<h2 id="swagger-ui">Swagger UI</h2><ol>
-<li>Add swagger-ui-express using <code>yarn add swagger-ui-express</code></li>
-<li>Add a way to automatically generate the file swagger.json (see src/swagger.js)</li>
-<li>Modify the routes to provide general information that swagger requires in order to list the apis properly.</li>
-</ol>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="pagination">Pagination</h1><p>Added skip and limit as query parameters in GET /rides</p>
 </div>
 </div>
 
