@@ -1,6 +1,6 @@
 # Refactoring
 
-used MVC Design Pattern as a way of separating concerns. 
+used MVC as a way of separating concerns. 
 
 1. Model - represents the object. It can also have logic to update controller if it's data changes.
 2. View - represents the visualization of the data the model contains.

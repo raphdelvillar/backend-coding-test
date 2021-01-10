@@ -81,7 +81,13 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="pagination">Pagination</h1><p>Added skip and limit as query parameters in GET /rides</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="refactoring">Refactoring</h1><p>used MVC as a way of separating concerns. </p>
+<ol>
+<li>Model - represents the object. It can also have logic to update controller if it&apos;s data changes.</li>
+<li>View - represents the visualization of the data the model contains.</li>
+<li>Controller - acts on both model and the view. It controls the data flow into model objects and updates the view whenever the data changes. It keeps view and model separate.</li>
+</ol>
+<p>Added some mapping logic to ride entity to have the same output as what it is going in so the front-end should not have to be changed to adapt.</p>
 </div>
 </div>
 

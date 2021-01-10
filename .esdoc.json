@@ -13,7 +13,8 @@
                   "./manual/tooling.md",
                   "./manual/pagination.md",
                   "./manual/refactoring.md",
-                  "./manual/security.md"
+                  "./manual/security.md",
+                  "./manual/loadtesting.md"
                ]
             }
          }

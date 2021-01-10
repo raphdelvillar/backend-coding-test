@@ -288,21 +288,27 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/logger.js",
-    "file/src/logger.js.html",
-    "src/logger.js",
+    "src/enums.js",
+    "file/src/enums.js.html",
+    "src/enums.js",
+    "file"
+  ],
+  [
+    "src/health/controller.js",
+    "file/src/health/controller.js.html",
+    "src/health/controller.js",
+    "file"
+  ],
+  [
+    "src/ride/controller.js",
+    "file/src/ride/controller.js.html",
+    "src/ride/controller.js",
     "file"
   ],
   [
     "src/routes.js",
     "file/src/routes.js.html",
     "src/routes.js",
-    "file"
-  ],
-  [
-    "src/schemas.js",
-    "file/src/schemas.js.html",
-    "src/schemas.js",
     "file"
   ],
   [

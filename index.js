@@ -24,11 +24,8 @@ const swaggerDocument = require('./swagger.json');
 
 const app = require('./src/app')(routes);
 
-app.configure(() => {
-  app.use(sqlinjection);
-});
-
 db.serialize(() => {
+  app.use(sqlinjection);
   app.use(express.static('docs'));
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -8,8 +8,9 @@
   },
   "scripts": {
     "linter": "yarn run eslint",
+    "test:load": "yarn artillery run ./artillery.yml",
     "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000 --check-coverage=true",
-    "start": "yarn test && yarn docs && node index.js",
+    "start": "yarn test && yarn docs && node index.js && yarn test:load",
     "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
   },
   "pre-push": [
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "artillery": "^1.6.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^7.17.0",

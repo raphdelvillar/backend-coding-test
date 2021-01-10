@@ -1,32 +1,50 @@
 {
   "coverage": "0%",
-  "expectCount": 11,
+  "expectCount": 23,
   "actualCount": 0,
   "files": {
     "src/app.js": {
-      "expectCount": 4,
+      "expectCount": 5,
       "actualCount": 0,
       "undocumentLines": [
         3,
         5,
         7,
-        9
+        9,
+        10
       ]
     },
-    "src/logger.js": {
+    "src/health/controller.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        6
+      ]
+    },
+    "src/ride/controller.js": {
+      "expectCount": 9,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        11,
+        34,
+        57
+      ]
+    },
+    "src/routes.js": {
       "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
         2,
         3,
         4
-      ]
-    },
-    "src/routes.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        2
       ]
     },
     "src/swagger.js": {
