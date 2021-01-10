@@ -57,18 +57,74 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="documentation">Documentation</h1><p>Used esdocs for generating user manual and used swagger ui for generating api documentation.</p>
-<h2 id="esdocs">Esdocs</h2><ol>
-<li>Add esdocs using <code>yarn add esdoc esdoc-standard-plugin</code></li>
-<li>Create .esdoc.json file - ensure that it is utf-8 encoded or else the next step won&apos;t work.</li>
-<li>Run <code>yarn docs</code> - this will call ./node_modules/.bin/esdoc and will generate the docs folder which contains the html files for documentation.</li>
-<li>Expose through the api using express static</li>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="tooling">Tooling</h1><h2 id="eslint">eslint</h2><p>Run using <code>yarn run eslint</code> or <code>yarn linter</code></p>
+<ol>
+<li>How would you like to use ESLint? <code>style</code></li>
+<li>What type of modules does your project use? <code>commonjs</code></li>
+<li>Which framework does your project use? <code>none</code></li>
+<li>Does your project use Typescript? <code>Yes</code></li>
+<li>Where do your code run? <code>browser, node</code></li>
+<li>What format do you want your config file to be in? <code>YAML</code></li>
+<li>How would you like to define a style for your project? <code>guide</code></li>
+<li>Which style guide do you want to follow? <code>airbnb</code></li>
 </ol>
-<h2 id="swagger-ui">Swagger UI</h2><ol>
-<li>Add swagger-ui-express using <code>yarn add swagger-ui-express</code></li>
-<li>Add a way to automatically generate the file swagger.json (see src/swagger.js)</li>
-<li>Modify the routes to provide general information that swagger requires in order to list the apis properly.</li>
-</ol>
+<h2 id="nyc">nyc</h2><p>Run using <code>nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000</code> or <code>yarn test</code></p>
+<p>As of <code>tooling-nyc</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">File</th>
+<th style="text-align:left">% Stmts</th>
+<th style="text-align:left">% Branch</th>
+<th style="text-align:left">% Funcs</th>
+<th style="text-align:left">% Lines</th>
+<th style="text-align:left">Uncovered Line #s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">All files</td>
+<td style="text-align:left">87.8</td>
+<td style="text-align:left">82.5</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">87.65</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> app.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> logger.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> routes.js</td>
+<td style="text-align:left">82.76</td>
+<td style="text-align:left">81.58</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">82.46</td>
+<td style="text-align:left">92-93,101-102,126-127,134-135,168-169</td>
+</tr>
+<tr>
+<td style="text-align:left"> schemas.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pre-push">pre-push</h2><h2 id="winston">winston</h2><p>Logs are saved in ./logs folder using unix timestamp as filename</p>
 </div>
 </div>
 

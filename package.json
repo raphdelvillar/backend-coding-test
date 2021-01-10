@@ -7,11 +7,13 @@
     "test": "tests"
   },
   "scripts": {
+    "linter": "yarn run eslint",
     "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000",
     "start": "yarn test && yarn docs && node index.js",
     "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
   },
   "pre-push": [
+    "linter",
     "test"
   ],
   "keywords": [
@@ -32,6 +34,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.22.1",
     "mocha": "^6.1.4",

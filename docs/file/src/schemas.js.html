@@ -34,10 +34,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/schemas.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable linebreak-style */
 module.exports = (db) =&gt; {
-    const createRideTableSchema = `
+  const createRideTableSchema = `
         CREATE TABLE Rides
         (
         rideID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,9 +51,9 @@ module.exports = (db) =&gt; {
         )
     `;
 
-    db.run(createRideTableSchema);
+  db.run(createRideTableSchema);
 
-    return db;
+  return db;
 };
 </code></pre>
 

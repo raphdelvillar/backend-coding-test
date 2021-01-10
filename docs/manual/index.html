@@ -44,6 +44,16 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/documentation.html"><a href="manual/documentation.html#swagger-ui" data-ice="link">Swagger UI</a></li>
 </ul>
   </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tooling.html"><a href="manual/tooling.html" data-ice="link">Tooling</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tooling.html"><a href="manual/tooling.html#eslint" data-ice="link">eslint</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tooling.html"><a href="manual/tooling.html#nyc" data-ice="link">nyc</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tooling.html"><a href="manual/tooling.html#pre-push" data-ice="link">pre-push</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tooling.html"><a href="manual/tooling.html#winston" data-ice="link">winston</a></li>
+</ul>
+  </div>
 </div>
 </nav>
 
@@ -185,12 +195,12 @@
 </tr>
 </tbody>
 </table><h2>Tasks</h2><ol>
-<li><a href="#documentation">Documentation</a></li>
-<li><a href="#implement-tooling">Implement Tooling</a></li>
-<li><a href="#implement-pagination">Implement Pagination</a></li>
-<li><a href="#refactoring">Refactoring</a></li>
-<li><a href="#security">Security</a></li>
-<li><a href="#load-testing">Load Testing</a></li>
+<li>Documentation</li>
+<li>Implement Tooling</li>
+<li>Implement Pagination</li>
+<li>Refactoring</li>
+<li>Security</li>
+<li>Load Testing</li>
 </ol></div>
         <a data-ice="link" href="manual/overview.html"></a>
       </div>
@@ -208,6 +218,74 @@
 <li>Modify the routes to provide general information that swagger requires in order to list the apis properly.</li>
 </ol></div>
         <a data-ice="link" href="manual/documentation.html"></a>
+      </div>
+    </div>
+<div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>Tooling</h1><h2>eslint</h2><p>Run using <code>yarn run eslint</code> or <code>yarn linter</code></p><ol>
+<li>How would you like to use ESLint? <code>style</code></li>
+<li>What type of modules does your project use? <code>commonjs</code></li>
+<li>Which framework does your project use? <code>none</code></li>
+<li>Does your project use Typescript? <code>Yes</code></li>
+<li>Where do your code run? <code>browser, node</code></li>
+<li>What format do you want your config file to be in? <code>YAML</code></li>
+<li>How would you like to define a style for your project? <code>guide</code></li>
+<li>Which style guide do you want to follow? <code>airbnb</code></li>
+</ol><h2>nyc</h2><p>Run using <code>nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000</code> or <code>yarn test</code></p><p>As of <code>tooling-nyc</code></p><table>
+<thead>
+<tr>
+<th style="text-align:left">File</th>
+<th style="text-align:left">% Stmts</th>
+<th style="text-align:left">% Branch</th>
+<th style="text-align:left">% Funcs</th>
+<th style="text-align:left">% Lines</th>
+<th style="text-align:left">Uncovered Line #s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">All files</td>
+<td style="text-align:left">87.8</td>
+<td style="text-align:left">82.5</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">87.65</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> app.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> logger.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"> routes.js</td>
+<td style="text-align:left">82.76</td>
+<td style="text-align:left">81.58</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">82.46</td>
+<td style="text-align:left">92-93,101-102,126-127,134-135,168-169</td>
+</tr>
+<tr>
+<td style="text-align:left"> schemas.js</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left">100</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table><h2>pre-push</h2><h2>winston</h2><p>Logs are saved in ./logs folder using unix timestamp as filename</p></div>
+        <a data-ice="link" href="manual/tooling.html"></a>
       </div>
     </div>
 </div>

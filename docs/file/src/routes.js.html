@@ -34,195 +34,195 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/routes.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable linebreak-style */
 const logger = require(&apos;./logger&apos;)();
 
-module.exports = (db) =&gt; {
-    return [
-        {
-            link: &apos;/health&apos;,
-            method: &apos;GET&apos;,
-            tags: [&apos;Health&apos;],
-            description: &apos;Checks system status&apos;,
-            responses: {
-                200: {
-                    description: &apos;OK&apos;
-                },
-            },
-            callback: (_, res) =&gt; {
-                logger.info(&apos;GET /health OK&apos;);
-                res.send(&apos;Healthy&apos;);
-            }
+module.exports = (db) =&gt; [
+  {
+    link: &apos;/health&apos;,
+    method: &apos;GET&apos;,
+    tags: [&apos;Health&apos;],
+    description: &apos;Checks system status&apos;,
+    responses: {
+      200: {
+        description: &apos;OK&apos;,
+      },
+    },
+    callback: (_, res) =&gt; {
+      logger.info(&apos;GET /health OK&apos;);
+      res.send(&apos;Healthy&apos;);
+    },
+  },
+  {
+    link: &apos;/rides&apos;,
+    method: &apos;POST&apos;,
+    tags: [&apos;Rides&apos;],
+    description: &apos;Create new ride in the system&apos;,
+    parameters: [
+      {
+        name: &apos;body&apos;,
+        in: &apos;body&apos;,
+      },
+    ],
+    responses: {
+      200: {
+        description: &apos;New ride is created&apos;,
+      },
+    },
+    callback: (req, res) =&gt; {
+      const startLatitude = Number(req.body.start_lat);
+      const startLongitude = Number(req.body.start_long);
+      const endLatitude = Number(req.body.end_lat);
+      const endLongitude = Number(req.body.end_long);
+      const riderName = req.body.rider_name;
+      const driverName = req.body.driver_name;
+      const driverVehicle = req.body.driver_vehicle;
+
+      if (startLatitude &lt; -90 || startLatitude &gt; 90) {
+        if (startLongitude &lt; -180 || startLongitude &gt; 180) {
+          logger.error(&apos;[VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
+          return res.status(500).send({
+            error_code: &apos;VALIDATION_ERROR&apos;,
+            message: &apos;Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;,
+          });
+        }
+      }
+
+      if (endLatitude &lt; -90 || endLatitude &gt; 90 || endLongitude &lt; -180 || endLongitude &gt; 180) {
+        logger.error(&apos;[VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
+        return res.status(500).send({
+          error_code: &apos;VALIDATION_ERROR&apos;,
+          message: &apos;End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;,
+        });
+      }
+
+      if (typeof riderName !== &apos;string&apos; || riderName.length &lt; 1) {
+        logger.error(&apos;[VALIDATION_ERROR] Rider name must be a non empty string&apos;);
+        return res.status(500).send({
+          error_code: &apos;VALIDATION_ERROR&apos;,
+          message: &apos;Rider name must be a non empty string&apos;,
+        });
+      }
+
+      if (typeof driverName !== &apos;string&apos; || driverName.length &lt; 1) {
+        logger.error(&apos;VALIDATION_ERROR&apos;);
+        return res.status(500).send({
+          error_code: &apos;VALIDATION_ERROR&apos;,
+          message: &apos;Driver name must be a non empty string&apos;,
+        });
+      }
+
+      if (typeof driverVehicle !== &apos;string&apos; || driverVehicle.length &lt; 1) {
+        logger.error(&apos;[VALIDATION_ERROR] Driver vehicle must be a non empty string&apos;);
+        return res.status(500).send({
+          error_code: &apos;VALIDATION_ERROR&apos;,
+          message: &apos;Driver vehicle must be a non empty string&apos;,
+        });
+      }
+
+      const values = [...Object.values(req.body)];
+
+      const fields = &apos;Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle)&apos;;
+      db.run(`INSERT INTO ${fields} VALUES (?, ?, ?, ?, ?, ?, ?)`, values, (err) =&gt; {
+        if (err) {
+          logger.error(`[SERVER_ERROR] ${err}`);
+          return res.status(500).send({
+            error_code: &apos;SERVER_ERROR&apos;,
+            message: &apos;Unknown error&apos;,
+          });
+        }
+
+        db.all(&apos;SELECT * FROM Rides WHERE rideID = ?&apos;, this.lastID, (err2, rows) =&gt; {
+          if (err2) {
+            logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
+            return res.status(500).send({
+              error_code: &apos;SERVER_ERROR&apos;,
+              message: &apos;Unknown error&apos;,
+            });
+          }
+          logger.info(&apos;POST /rides New ride is created&apos;);
+          return res.send(rows);
+        });
+      });
+    },
+  },
+  {
+    link: &apos;/rides&apos;,
+    method: &apos;GET&apos;,
+    tags: [&apos;Rides&apos;],
+    description: &apos;Get all rides from the system&apos;,
+    responses: {
+      200: {
+        description: &apos;OK&apos;,
+      },
+    },
+    callback: (_, res) =&gt; {
+      db.all(&apos;SELECT * FROM Rides&apos;, (err, rows) =&gt; {
+        if (err) {
+          logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
+          return res.status(500).send({
+            error_code: &apos;SERVER_ERROR&apos;,
+            message: &apos;Unknown error&apos;,
+          });
+        }
+
+        if (rows.length === 0) {
+          logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
+          return res.status(500).send({
+            error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
+            message: &apos;Could not find any rides&apos;,
+          });
+        }
+
+        logger.info(&apos;GET /rides OK&apos;);
+        return res.send(rows);
+      });
+    },
+  },
+  {
+    link: &apos;/rides/:id&apos;,
+    method: &apos;GET&apos;,
+    tags: [&apos;Rides&apos;],
+    description: &apos;Get specific ride from the system&apos;,
+    parameters: [
+      {
+        name: &apos;id&apos;,
+        schema: {
+          type: &apos;integer&apos;,
         },
-        {
-            link: &apos;/rides&apos;,
-            method: &apos;POST&apos;,
-            tags: [&apos;Rides&apos;],
-            description: &apos;Create new ride in the system&apos;,
-            parameters: [
-                {
-                    name: &apos;body&apos;,
-                    in: &apos;body&apos;
-                },
-            ],
-            responses: {
-                200: {
-                    description: &apos;New ride is created&apos;
-                },
-            },
-            callback: (req, res) =&gt; {
-                const startLatitude = Number(req.body.start_lat);
-                const startLongitude = Number(req.body.start_long);
-                const endLatitude = Number(req.body.end_lat);
-                const endLongitude = Number(req.body.end_long);
-                const riderName = req.body.rider_name;
-                const driverName = req.body.driver_name;
-                const driverVehicle = req.body.driver_vehicle;
+        in: &apos;path&apos;,
+      },
+    ],
+    responses: {
+      200: {
+        description: &apos;OK&apos;,
+      },
+    },
+    callback: (req, res) =&gt; {
+      db.all(`SELECT * FROM Rides WHERE rideID=&apos;${req.params.id}&apos;`, (err, rows) =&gt; {
+        if (err) {
+          logger.error(`[SERVER_ERROR] ${err}`);
+          return res.status(500).send({
+            error_code: &apos;SERVER_ERROR&apos;,
+            message: &apos;Unknown error&apos;,
+          });
+        }
 
-                if (startLatitude &lt; -90 || startLatitude &gt; 90 || startLongitude &lt; -180 || startLongitude &gt; 180) {
-                    logger.error(&apos;[VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
-                    return res.send({
-                        error_code: &apos;VALIDATION_ERROR&apos;,
-                        message: &apos;Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;
-                    });
-                }
+        if (rows.length === 0) {
+          logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
+          return res.status(500).send({
+            error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
+            message: &apos;Could not find any rides&apos;,
+          });
+        }
 
-                if (endLatitude &lt; -90 || endLatitude &gt; 90 || endLongitude &lt; -180 || endLongitude &gt; 180) {
-                    logger.error(&apos;[VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;);
-                    return res.send({
-                        error_code: &apos;VALIDATION_ERROR&apos;,
-                        message: &apos;End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively&apos;
-                    });
-                }
-
-                if (typeof riderName !== &apos;string&apos; || riderName.length &lt; 1) {
-                    logger.error(&apos;[VALIDATION_ERROR] Rider name must be a non empty string&apos;);
-                    return res.send({
-                        error_code: &apos;VALIDATION_ERROR&apos;,
-                        message: &apos;Rider name must be a non empty string&apos;
-                    });
-                }
-
-                if (typeof driverName !== &apos;string&apos; || driverName.length &lt; 1) {
-                    logger.error(&apos;VALIDATION_ERROR&apos;);
-                    return res.send({
-                        error_code: &apos;VALIDATION_ERROR&apos;,
-                        message: &apos;Rider name must be a non empty string&apos;
-                    });
-                }
-
-                if (typeof driverVehicle !== &apos;string&apos; || driverVehicle.length &lt; 1) {
-                    logger.error(&apos;[VALIDATION_ERROR] Rider name must be a non empty string&apos;);
-                    return res.send({
-                        error_code: &apos;VALIDATION_ERROR&apos;,
-                        message: &apos;Rider name must be a non empty string&apos;
-                    });
-                }
-
-                var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
-
-                const result = db.run(&apos;INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)&apos;, values, function (err) {
-                    if (err) {
-                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
-                        return res.send({
-                            error_code: &apos;SERVER_ERROR&apos;,
-                            message: &apos;Unknown error&apos;
-                        });
-                    }
-
-                    db.all(&apos;SELECT * FROM Rides WHERE rideID = ?&apos;, this.lastID, function (err, rows) {
-                        if (err) {
-                            logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
-                            return res.send({
-                                error_code: &apos;SERVER_ERROR&apos;,
-                                message: &apos;Unknown error&apos;
-                            });
-                        }
-
-                        logger.info(&apos;POST /rides New ride is created&apos;);
-                        res.send(rows);
-                    });
-                });
-            }
-        },
-        {
-            link: &apos;/rides&apos;,
-            method: &apos;GET&apos;,
-            tags: [&apos;Rides&apos;],
-            description: &apos;Get all rides from the system&apos;,
-            responses: {
-                200: {
-                    description: &apos;OK&apos;
-                },
-            },
-            callback: (_, res) =&gt; {
-                db.all(&apos;SELECT * FROM Rides&apos;, function (err, rows) {
-                    if (err) {
-                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
-                        return res.send({
-                            error_code: &apos;SERVER_ERROR&apos;,
-                            message: &apos;Unknown error&apos;
-                        });
-                    }
-
-                    if (rows.length === 0) {
-                        logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
-                        return res.send({
-                            error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
-                            message: &apos;Could not find any rides&apos;
-                        });
-                    }
-
-                    logger.info(&apos;GET /rides OK&apos;)
-                    res.send(rows);
-                });
-            }
-        },
-        {
-            link: &apos;/rides/:id&apos;,
-            method: &apos;GET&apos;,
-            tags: [&apos;Rides&apos;],
-            description: &apos;Get specific ride from the system&apos;,
-            parameters: [
-                {
-                    name: &apos;id&apos;,
-                    schema: {
-                        type: &apos;integer&apos;
-                    },
-                    in: &apos;path&apos;
-                },
-            ],
-            responses: {
-                200: {
-                    description: &apos;OK&apos;
-                },
-            },
-            callback: (req, res) =&gt; {
-                db.all(`SELECT * FROM Rides WHERE rideID=&apos;${req.params.id}&apos;`, function (err, rows) {
-                    if (err) {
-                        logger.error(&apos;[SERVER_ERROR] Unknown error&apos;);
-                        return res.send({
-                            error_code: &apos;SERVER_ERROR&apos;,
-                            message: &apos;Unknown error&apos;
-                        });
-                    }
-
-                    if (rows.length === 0) {
-                        logger.error(&apos;[RIDES_NOT_FOUND_ERROR] Could not find any rides&apos;);
-                        return res.send({
-                            error_code: &apos;RIDES_NOT_FOUND_ERROR&apos;,
-                            message: &apos;Could not find any rides&apos;
-                        });
-                    }
-
-                    logger.info(`GET /rides/${req.parms.id} OK`)
-                    res.send(rows);
-                });
-            }
-        },
-    ];
-}</code></pre>
+        logger.info(`GET /rides/${req.params.id} OK`);
+        return res.send(rows);
+      });
+    },
+  },
+];
+</code></pre>
 
 </div>
 

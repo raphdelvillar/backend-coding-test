@@ -13,9 +13,9 @@
 
 ## Tasks
 
-1. [Documentation](#documentation)
-2. [Implement Tooling](#implement-tooling)
-3. [Implement Pagination](#implement-pagination)
-4. [Refactoring](#refactoring)
-5. [Security](#security)
-6. [Load Testing](#load-testing)
+1. Documentation
+2. Implement Tooling
+3. Implement Pagination
+4. Refactoring
+5. Security
+6. Load Testing

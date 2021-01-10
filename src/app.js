@@ -14,15 +14,6 @@ module.exports = (routes) => {
       case 'POST':
         app.post(route.link, jsonParser, route.callback);
         break;
-      case 'PATCH':
-        app.patch(route.link, jsonParser, route.callback);
-        break;
-      case 'PUT':
-        app.put(route.link, jsonParser, route.callback);
-        break;
-      case 'DELETE':
-        app.delete(route.link, route.callback);
-        break;
       default:
         app.get(route.link, route.callback);
     }
