@@ -12,19 +12,54 @@ const db = new sqlite3.Database(':memory:');
 
 const routes = require('../src/routes')(db);
 const app = require('../src/app')(routes);
-const buildSchemas = require('../src/schemas');
+
+const logger = require('../src/logger');
+
+logger.toggle(false);
 
 // eslint-disable-next-line no-unused-vars
 const should = chai.should();
 
 chai.use(chaiHttp);
+
+describe('Logger tests', () => {
+  describe('Logger info', () => {
+    it('should enable info', (done) => {
+      logger.toggle(true);
+      logger.enabled.should.be.eql(true);
+      logger.info('test');
+      return done();
+    });
+
+    it('should enable error', (done) => {
+      logger.toggle(true);
+      logger.enabled.should.be.eql(true);
+      logger.error('test');
+      return done();
+    });
+
+    it('should enable info', (done) => {
+      logger.toggle(false);
+      logger.enabled.should.be.eql(false);
+      logger.info('test');
+      return done();
+    });
+
+    it('should enable error', (done) => {
+      logger.toggle(false);
+      logger.enabled.should.be.eql(false);
+      logger.error('test');
+      return done();
+    });
+  });
+});
+
 describe('API tests', () => {
   before((done) => {
     db.serialize((err) => {
       if (err) {
         return done(err);
       }
-      buildSchemas(db);
       return done();
     });
   });
@@ -40,20 +75,33 @@ describe('API tests', () => {
     });
   });
 
+  describe('GET /rides', () => {
+    it('should return [RIDES_NOT_FOUND_ERROR] Could not find any rides', (done) => {
+      request(app)
+        .get('/rides')
+        .end((_, res) => {
+          res.should.have.status(500);
+          res.body.should.have.property('error_code').eql('RIDES_NOT_FOUND_ERROR');
+          res.body.should.have.property('message').eql('Could not find any rides');
+          done();
+        });
+    });
+  });
+
   describe('POST /rides', () => {
-    it('should return [VALIDATION_ERROR] Rider name must be a non empty string', (done) => {
+    it('should return [SERVER_ERROR] Error: Rider name must be a non empty string', (done) => {
       chai.request(app)
         .post('/rides')
         .send({})
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.have.property('error_code').eql('VALIDATION_ERROR');
-          res.body.should.have.property('message').eql('Rider name must be a non empty string');
+          res.body.should.have.property('error_code').eql('SERVER_ERROR');
+          res.body.should.have.property('message').eql('Error: Rider name must be a non empty string');
           done();
         });
     });
 
-    it('should return [VALIDATION_ERROR] Driver name must not be a non empty string', (done) => {
+    it('should return [SERVER_ERROR] Error: Driver name must be a non empty string', (done) => {
       chai.request(app)
         .post('/rides')
         .send({
@@ -61,13 +109,13 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.have.property('error_code').eql('VALIDATION_ERROR');
-          res.body.should.have.property('message').eql('Driver name must be a non empty string');
+          res.body.should.have.property('error_code').eql('SERVER_ERROR');
+          res.body.should.have.property('message').eql('Error: Driver name must be a non empty string');
           done();
         });
     });
 
-    it('should return [VALIDATION_ERROR] Driver vehicle must be a non empty string', (done) => {
+    it('should return [SERVER_ERROR] Error: Driver vehicle must be a non empty string', (done) => {
       chai.request(app)
         .post('/rides')
         .send({
@@ -76,13 +124,13 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.have.property('error_code').eql('VALIDATION_ERROR');
-          res.body.should.have.property('message').eql('Driver vehicle must be a non empty string');
+          res.body.should.have.property('error_code').eql('SERVER_ERROR');
+          res.body.should.have.property('message').eql('Error: Driver vehicle must be a non empty string');
           done();
         });
     });
 
-    it('should return [VALIDATION_ERROR] Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively', (done) => {
+    it('should return [SERVER_ERROR] Error: Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively', (done) => {
       chai.request(app)
         .post('/rides')
         .send({
@@ -94,13 +142,13 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.have.property('error_code').eql('VALIDATION_ERROR');
-          res.body.should.have.property('message').eql('Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');
+          res.body.should.have.property('error_code').eql('SERVER_ERROR');
+          res.body.should.have.property('message').eql('Error: Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');
           done();
         });
     });
 
-    it('should return [VALIDATION_ERROR] End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively', (done) => {
+    it('should return [SERVER_ERROR] Error: End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively', (done) => {
       chai.request(app)
         .post('/rides')
         .send({
@@ -114,8 +162,8 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.have.property('error_code').eql('VALIDATION_ERROR');
-          res.body.should.have.property('message').eql('End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');
+          res.body.should.have.property('error_code').eql('SERVER_ERROR');
+          res.body.should.have.property('message').eql('Error: End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively');
           done();
         });
     });
@@ -134,7 +182,7 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.have.length(1);
+          res.body.should.be.a('object');
           done();
         });
     });
@@ -147,7 +195,6 @@ describe('API tests', () => {
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.should.have.length(1);
           done();
         });
     });
@@ -166,7 +213,7 @@ describe('API tests', () => {
         })
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.have.length(1);
+          res.body.should.be.a('object');
           done();
         });
     });
@@ -178,7 +225,7 @@ describe('API tests', () => {
           res.should.have.status(200);
           res.body.should.be.a('array');
           res.body.should.have.length(1);
-          res.body[0].should.have.property('rideID').eql(2);
+          res.body[0].should.have.property('ride_id').eql(2);
           done();
         });
     });
@@ -190,15 +237,14 @@ describe('API tests', () => {
         .get('/rides/1')
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.should.have.length(1);
+          res.body.should.be.a('object');
           done();
         });
     });
 
     it('should return [RIDES_NOT_FOUND_ERROR] Could not find any rides', (done) => {
       request(app)
-        .get('/rides/0')
+        .get('/rides/9999')
         .end((_, res) => {
           res.should.have.status(500);
           res.body.should.have.property('error_code').eql('RIDES_NOT_FOUND_ERROR');

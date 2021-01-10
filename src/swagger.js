@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 const fs = require('fs');
-const logger = require('./logger')();
+const logger = require('./logger');
 
 const pjson = require('../package.json');
 
