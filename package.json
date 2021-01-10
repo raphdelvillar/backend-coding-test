@@ -8,7 +8,7 @@
   },
   "scripts": {
     "linter": "yarn run eslint",
-    "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000",
+    "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000 --check-coverage=true",
     "start": "yarn test && yarn docs && node index.js",
     "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
   },
@@ -16,6 +16,12 @@
     "linter",
     "test"
   ],
+  "nyc": {
+    "branches": "&gt;80",
+    "lines": "&gt;80",
+    "functions": "&gt;80",
+    "statements": "&gt;80"
+  },
   "keywords": [
     "Xendit"
   ],
