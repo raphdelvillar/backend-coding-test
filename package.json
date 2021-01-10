@@ -8,8 +8,9 @@
   },
   "scripts": {
     "linter": "yarn run eslint",
+    "test:load": "yarn artillery run ./artillery.yml",
     "test": "nyc mocha ./tests/*.test.js --exit --inspect=0.0.0.0:9229 --timeout 120000 --check-coverage=true",
-    "start": "yarn test && yarn docs && node index.js",
+    "start": "yarn test && yarn docs && node index.js && yarn test:load",
     "docs": "./node_modules/.bin/esdoc -c .esdoc.json"
   },
   "pre-push": [
@@ -33,6 +34,8 @@
     "esdoc-standard-plugin": "^1.0.0",
     "eslint-config-airbnb": "^18.2.1",
     "express": "^4.16.4",
+    "moment": "^2.29.1",
+    "sql-injection": "^0.0.6",
     "sqlite3": "^4.0.6",
     "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3"
@@ -40,6 +43,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "artillery": "^1.6.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^7.17.0",

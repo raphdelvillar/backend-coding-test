@@ -1,0 +1,46 @@
+config:
+  target: http://localhost:8010
+  phases:
+    - duration: 30
+      arrivalRate: 100
+      name: "Load Test"
+  ensure:
+    p99: 50
+  payload:
+    path: "rides.csv"
+    fields:
+      - "start_lat"
+      - "start_long"
+      - "end_lat"
+      - "end_long"
+      - "rider_name"
+      - "driver_name"
+      - "driver_vehicle"
+scenarios:
+  - name: "Health"
+    flow:
+      - get:
+          url: "/health"
+  - name: "Rides"
+    flow:
+      - post:
+          url: "/rides"
+          json: 
+            start_lang: "{{ start_lat }}"
+            start_long: "{{ start_long }}"
+            end_lat: "{{ end_lat }}"
+            end_long: "{{ end_long }}"
+            rider_name: "{{ rider_name }}"
+            driver_name: "{{ driver_name }}"
+            driver_vehicle: "{{ driver_vehicle }}"
+          capture:
+            json: "$.results[0].ride_id"
+            as: "id"
+          expect:
+            - statusCode: 200
+      - get:
+          url: "/rides/{{ id }}"
+      - get:
+          url: "/rides"
+        
+
