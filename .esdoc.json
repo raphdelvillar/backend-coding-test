@@ -10,7 +10,8 @@
                "files": [
                   "./manual/overview.md",
                   "./manual/documentation.md",
-                  "./manual/tooling.md"
+                  "./manual/tooling.md",
+                  "./manual/pagination.md"
                ]
             }
          }

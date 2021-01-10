@@ -33,6 +33,7 @@ module.exports = (db) => [
         description: 'New ride is created',
       },
     },
+    // eslint-disable-next-line consistent-return
     callback: (req, res) => {
       const startLatitude = Number(req.body.start_lat);
       const startLongitude = Number(req.body.start_long);
@@ -87,7 +88,8 @@ module.exports = (db) => [
       const values = [...Object.values(req.body)];
 
       const fields = 'Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle)';
-      db.run(`INSERT INTO ${fields} VALUES (?, ?, ?, ?, ?, ?, ?)`, values, (err) => {
+      // eslint-disable-next-line consistent-return
+      db.run(`INSERT INTO ${fields} VALUES (?, ?, ?, ?, ?, ?, ?)`, values, function insert(err) {
         if (err) {
           logger.error(`[SERVER_ERROR] ${err}`);
           return res.status(500).send({
@@ -104,6 +106,15 @@ module.exports = (db) => [
               message: 'Unknown error',
             });
           }
+
+          if (rows.length === 0) {
+            logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');
+            return res.status(500).send({
+              error_code: 'RIDES_NOT_FOUND_ERROR',
+              message: 'Could not find any rides',
+            });
+          }
+
           logger.info('POST /rides New ride is created');
           return res.send(rows);
         });
@@ -115,13 +126,37 @@ module.exports = (db) => [
     method: 'GET',
     tags: ['Rides'],
     description: 'Get all rides from the system',
+    parameters: [
+      {
+        name: 'skip',
+        schema: {
+          type: 'integer',
+        },
+        in: 'query',
+      },
+      {
+        name: 'limit',
+        schema: {
+          type: 'integer',
+        },
+        in: 'query',
+      },
+    ],
     responses: {
       200: {
         description: 'OK',
       },
     },
-    callback: (_, res) => {
-      db.all('SELECT * FROM Rides', (err, rows) => {
+    callback: (req, res) => {
+      let query = 'SELECT * FROM Rides';
+      if (req.query.limit) {
+        query += ` LIMIT ${req.query.limit}`;
+      }
+      if (req.query.skip) {
+        query += ` OFFSET ${req.query.skip}`;
+      }
+
+      db.all(query, (err, rows) => {
         if (err) {
           logger.error('[SERVER_ERROR] Unknown error');
           return res.status(500).send({
