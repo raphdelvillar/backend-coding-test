@@ -26,34 +26,44 @@ module.exports = class RideService {
 
   async findAll(params) {
     let query = `SELECT * FROM ${this.table}`;
+    const values = [];
     if (params.limit) {
-      query += ` LIMIT ${params.limit}`;
+      query += ' LIMIT ?';
+      values.push(params.limit);
     }
     if (params.skip) {
-      query += ` OFFSET ${params.skip}`;
+      query += ' OFFSET ?';
+      values.push(params.skip);
     }
     const result = await new Promise((resolve, reject) => {
-      this.db.all(query, (err, rows) => {
+      this.db.all(query, values, (err, rows) => {
         if (err) reject(new Error(err));
         resolve(rows);
       });
     });
 
-    const ride = new RideEntity('out', result);
-    return ride.datas;
+    if (result) {
+      const ride = new RideEntity('out', result);
+      return ride.datas;
+    }
+    return [];
   }
 
   async findOne(id) {
-    const query = `SELECT * FROM ${this.table} WHERE rideID='${id}'`;
+    const query = `SELECT * FROM ${this.table} WHERE rideID = ?`;
+    const values = [id];
     const result = await new Promise((resolve, reject) => {
-      this.db.all(query, (err, rows) => {
+      this.db.get(query, values, (err, row) => {
         if (err) reject(new Error(err));
-        resolve(rows);
+        resolve(row);
       });
     });
 
-    const ride = new RideEntity('out', result);
-    return ride.datas[0];
+    if (result) {
+      const ride = new RideEntity('out', result);
+      return ride.data;
+    }
+    return {};
   }
 
   async create(dto) {

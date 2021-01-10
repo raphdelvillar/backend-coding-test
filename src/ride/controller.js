@@ -35,7 +35,7 @@ module.exports = class RideController {
     try {
       const { id } = req.params;
       const result = await this.db.findOne(id);
-      if (!result) {
+      if (!result || Object.keys(result).length === 0) {
         logger.error('[RIDES_NOT_FOUND_ERROR] Could not find any rides');
         return res.status(500).send({
           error_code: 'RIDES_NOT_FOUND_ERROR',

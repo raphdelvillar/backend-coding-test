@@ -37,17 +37,26 @@ module.exports = class RideEntity {
         });
         break;
       default:
-        data.map((dat, index) => {
-          const akeys = Object.keys(dat);
-          this.datas[index] = {};
-          akeys.map((key) => {
+        if (Array.isArray(data)) {
+          data.map((dat, index) => {
+            const akeys = Object.keys(dat);
+            this.datas[index] = {};
+            akeys.map((key) => {
+              if (this.out[key]) {
+                this.datas[index][this.out[key]] = dat[key];
+              }
+              return key;
+            });
+            return dat;
+          });
+        } else {
+          keys.map((key) => {
             if (this.out[key]) {
-              this.datas[index][this.out[key]] = dat[key];
+              this.data[this.out[key]] = data[key];
             }
             return key;
           });
-          return dat;
-        });
+        }
         break;
     }
   }

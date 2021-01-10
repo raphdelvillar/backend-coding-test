@@ -1,5 +1,6 @@
 /* eslint linebreak-style: ["error", "windows"] */
 const express = require('express');
+const sqlinjection = require('sql-injection');
 
 const path = require('path');
 
@@ -22,6 +23,10 @@ buildSwagger(port, routes);
 const swaggerDocument = require('./swagger.json');
 
 const app = require('./src/app')(routes);
+
+app.configure(() => {
+  app.use(sqlinjection);
+});
 
 db.serialize(() => {
   app.use(express.static('docs'));
